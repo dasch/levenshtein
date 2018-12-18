@@ -18,10 +18,10 @@ distance str1 str2 =
                 0
 
         chr1 =
-            String.slice (len1 - 1) len1 str1
+            String.right 1 str1
 
         chr2 =
-            String.slice (len2 - 1) len2 str2
+            String.right 1 str2
     in
     if min len1 len2 == 0 then
         max len1 len2
