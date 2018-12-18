@@ -21,4 +21,11 @@ suite =
         , test "distance is the Levenshtein distance" <|
             \_ ->
                 Expect.equal 3 (distance "kitten" "sitting")
+        , fuzz2 Fuzz.string Fuzz.string "distance is at least the difference between the length of the strings" <|
+            \example1 example2 ->
+                let
+                    diff =
+                        abs (String.length example1 - String.length example1)
+                in
+                Expect.atLeast diff (distance example1 example2)
         ]
