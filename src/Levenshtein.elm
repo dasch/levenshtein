@@ -10,7 +10,10 @@ distance str1 str2 =
         len2 =
             String.length str2
     in
-    if min len1 len2 == 0 then
+    if str1 == str2 then
+        0
+
+    else if min len1 len2 == 0 then
         max len1 len2
 
     else
