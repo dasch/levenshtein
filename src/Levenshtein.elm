@@ -58,7 +58,13 @@ lev memo ( str1, str2 ) =
                 Memo.fetch ( newStr1, newStr2 ) lev memo2
         in
         ( memo3
-        , min
-            (min (dist1 + 1) (dist2 + 1))
+        , min3
+            (dist1 + 1)
+            (dist2 + 1)
             (dist3 + indicator)
         )
+
+
+min3 : comparable -> comparable -> comparable -> comparable
+min3 a b c =
+    min (min a b) c
