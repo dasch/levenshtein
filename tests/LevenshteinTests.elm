@@ -2,7 +2,7 @@ module LevenshteinTests exposing (suite)
 
 import Expect
 import Fuzz
-import Levenshtein2 exposing (distance)
+import Levenshtein exposing (distance)
 import Test exposing (..)
 
 

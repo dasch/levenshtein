@@ -1,72 +1,59 @@
 module Levenshtein exposing (distance)
 
+import Array exposing (Array)
 import Memo
 
 
 type alias Memo =
-    Memo.Memo ( String, String )
+    Memo.Memo ( Int, Int )
 
 
 distance : String -> String -> Int
 distance str1 str2 =
-    let
-        ( _, result ) =
-            lev Memo.empty ( str1, str2 )
-    in
-    result
-
-
-lev : Memo -> ( String, String ) -> ( Memo, Int )
-lev memo ( str1, str2 ) =
-    let
-        len1 =
-            String.length str1
-
-        len2 =
-            String.length str2
-    in
     if str1 == str2 then
-        ( memo, 0 )
-
-    else if min len1 len2 == 0 then
-        ( memo, max len1 len2 )
+        0
 
     else
-        let
-            chr1 =
-                String.right 1 str1
+        helper
+            (Array.fromList (String.toList str1))
+            (Array.fromList (String.toList str2))
 
-            chr2 =
-                String.right 1 str2
 
-            indicator =
-                if chr1 /= chr2 then
-                    1
+helper arr1 arr2 =
+    let
+        lev : Memo -> ( Int, Int ) -> ( Memo, Int )
+        lev memo ( i, j ) =
+            case ( Array.get (i - 1) arr1, Array.get (j - 1) arr2 ) of
+                ( Just chr1, Just chr2 ) ->
+                    let
+                        indicator =
+                            if chr1 /= chr2 then
+                                1
 
-                else
-                    0
+                            else
+                                0
 
-            newStr1 =
-                String.dropRight 1 str1
+                        ( memo1, dist1 ) =
+                            Memo.fetch ( i - 1, j ) lev memo
 
-            newStr2 =
-                String.dropRight 1 str2
+                        ( memo2, dist2 ) =
+                            Memo.fetch ( i, j - 1 ) lev memo1
 
-            ( memo1, dist1 ) =
-                Memo.fetch ( newStr1, str2 ) lev memo
+                        ( memo3, dist3 ) =
+                            Memo.fetch ( i - 1, j - 1 ) lev memo2
+                    in
+                    ( memo3
+                    , min3
+                        (dist1 + 1)
+                        (dist2 + 1)
+                        (dist3 + indicator)
+                    )
 
-            ( memo2, dist2 ) =
-                Memo.fetch ( str1, newStr2 ) lev memo1
-
-            ( memo3, dist3 ) =
-                Memo.fetch ( newStr1, newStr2 ) lev memo2
-        in
-        ( memo3
-        , min3
-            (dist1 + 1)
-            (dist2 + 1)
-            (dist3 + indicator)
-        )
+                _ ->
+                    ( memo, max i j )
+    in
+    lev Memo.empty ( Array.length arr1, Array.length arr2 )
+        |> Tuple.second
 
 
 min3 : comparable -> comparable -> comparable -> comparable
