@@ -1,29 +1,11 @@
 module Levenshtein2 exposing (distance)
 
 import Array exposing (Array)
-import Dict exposing (Dict)
+import Memo
 
 
 type alias Memo =
-    Dict Key Int
-
-
-type alias Key =
-    ( Int, Int )
-
-
-fetch : Key -> (Memo -> Key -> ( Memo, Int )) -> Memo -> ( Memo, Int )
-fetch key f memo =
-    case Dict.get key memo of
-        Just value ->
-            ( memo, value )
-
-        Nothing ->
-            let
-                ( newMemo, value ) =
-                    f memo key
-            in
-            ( Dict.insert key value newMemo, value )
+    Memo.Memo ( Int, Int )
 
 
 distance : String -> String -> Int
@@ -52,13 +34,13 @@ helper arr1 arr2 =
                                 0
 
                         ( memo1, dist1 ) =
-                            fetch ( i - 1, j ) lev memo
+                            Memo.fetch ( i - 1, j ) lev memo
 
                         ( memo2, dist2 ) =
-                            fetch ( i, j - 1 ) lev memo1
+                            Memo.fetch ( i, j - 1 ) lev memo1
 
                         ( memo3, dist3 ) =
-                            fetch ( i - 1, j - 1 ) lev memo2
+                            Memo.fetch ( i - 1, j - 1 ) lev memo2
                     in
                     ( memo3
                     , min3
@@ -70,7 +52,7 @@ helper arr1 arr2 =
                 _ ->
                     ( memo, max i j )
     in
-    lev Dict.empty ( Array.length arr1, Array.length arr2 )
+    lev Memo.empty ( Array.length arr1, Array.length arr2 )
         |> Tuple.second
 
 

@@ -3,20 +3,16 @@ module Memo exposing (Memo, empty, fetch)
 import Dict exposing (Dict)
 
 
-type alias Memo =
-    Dict Key Int
+type alias Memo comparable =
+    Dict comparable Int
 
 
-type alias Key =
-    ( String, String )
-
-
-empty : Memo
+empty : Memo comparable
 empty =
     Dict.empty
 
 
-fetch : Key -> (Memo -> Key -> ( Memo, Int )) -> Memo -> ( Memo, Int )
+fetch : comparable -> (Memo comparable -> comparable -> ( Memo comparable, Int )) -> Memo comparable -> ( Memo comparable, Int )
 fetch key f memo =
     case Dict.get key memo of
         Just value ->

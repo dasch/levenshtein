@@ -1,6 +1,10 @@
 module Levenshtein exposing (distance)
 
-import Memo exposing (Memo)
+import Memo
+
+
+type alias Memo =
+    Memo.Memo ( String, String )
 
 
 distance : String -> String -> Int
