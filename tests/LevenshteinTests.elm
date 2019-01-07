@@ -25,7 +25,7 @@ suite =
             \example1 example2 ->
                 let
                     diff =
-                        abs (String.length example1 - String.length example1)
+                        abs (String.length example1 - String.length example2)
                 in
                 Expect.atLeast diff (distance example1 example2)
         ]
