@@ -1,5 +1,11 @@
 module Levenshtein exposing (distance)
 
+{-| Levenshtein distance is a metric for measuring the difference between two strings.
+
+@docs distance
+
+-}
+
 import Array exposing (Array)
 import Memo
 
@@ -8,6 +14,8 @@ type alias Memo =
     Memo.Memo ( Int, Int )
 
 
+{-| Computes the Levenshtein distance between two strings.
+-}
 distance : String -> String -> Int
 distance str1 str2 =
     if str1 == str2 then
