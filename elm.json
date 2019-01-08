@@ -2,8 +2,8 @@
     "type": "package",
     "name": "dasch/levenshtein",
     "summary": "Computes the Levenshtein distance between strings",
-    "license": "BSD-3-Clause",
-    "version": "0.0.1",
+    "license": "Apache-2.0",
+    "version": "1.0.0",
     "exposed-modules": [
         "Levenshtein"
     ],
