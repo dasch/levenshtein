@@ -1,4 +1,4 @@
-workflow "Elm" {
+workflow "Elm stuff" {
   on = "push"
   resolves = ["dasch/elm:master"]
 }
