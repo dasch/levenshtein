@@ -1,9 +1,9 @@
 workflow "Elm" {
   on = "push"
-  resolves = ["dasch/elm"]
+  resolves = ["dasch/elm:master"]
 }
 
-action "dasch/elm" {
+action "dasch/elm:master" {
   uses = "dasch/elm"
   args = "diff"
 }
