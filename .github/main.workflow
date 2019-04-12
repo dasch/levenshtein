@@ -4,6 +4,6 @@ workflow "Elm" {
 }
 
 action "dasch/elm:master" {
-  uses = "dasch/elm"
+  uses = "dasch/elm@master"
   args = "diff"
 }
