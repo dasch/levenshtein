@@ -7,11 +7,11 @@ module Levenshtein exposing (distance)
 -}
 
 import Array exposing (Array)
-import Memo
+import Memo as Memo
 
 
 type alias Memo =
-    Memo.Memo ( Int, Int )
+    Memo.Memo
 
 
 {-| Computes the Levenshtein distance between two strings.
@@ -59,8 +59,11 @@ helper arr1 arr2 =
 
                 _ ->
                     ( memo, max i j )
+
+        firstKey =
+            ( Array.length arr1, Array.length arr2 )
     in
-    lev Memo.empty ( Array.length arr1, Array.length arr2 )
+    lev (Memo.empty firstKey) firstKey
         |> Tuple.second
 
 
