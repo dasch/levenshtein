@@ -12,7 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Run tests
-        uses: dasch/elm-actions@1.0.0
-        run: make
+      - uses: jorelali/setup-elm@v2
+        with:
+          elm-version: 0.19.1
+      - run: npm install -g elm-test
+      - run: elm make
+      - run: elm-test
