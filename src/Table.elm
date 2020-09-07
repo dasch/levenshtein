@@ -40,8 +40,8 @@ empty ( sizeA, sizeB ) =
     Table (sizeB + 1) (Array.repeat arraySize -1)
 
 
-fetch : ( Int, Int ) -> (Table -> ( Int, Int ) -> ( Table, Int )) -> Table -> ( Table, Int )
-fetch (( iKey, jKey ) as key) builder ((Table dimension store) as table) =
+fetch : (Table -> ( Int, Int ) -> ( Table, Int )) -> ( Int, Int ) -> Table -> ( Table, Int )
+fetch builder (( iKey, jKey ) as key) ((Table dimension store) as table) =
     let
         index =
             iKey * dimension + jKey

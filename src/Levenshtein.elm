@@ -38,13 +38,13 @@ helper arr1 arr2 =
                                 0
 
                         ( table1, dist1 ) =
-                            Table.fetch ( i - 1, j ) lev table
+                            Table.fetch lev ( i - 1, j ) table
 
                         ( table2, dist2 ) =
-                            Table.fetch ( i, j - 1 ) lev table1
+                            Table.fetch lev ( i, j - 1 ) table1
 
                         ( table3, dist3 ) =
-                            Table.fetch ( i - 1, j - 1 ) lev table2
+                            Table.fetch lev ( i - 1, j - 1 ) table2
                     in
                     ( table3
                     , min3
