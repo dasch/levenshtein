@@ -7,11 +7,7 @@ module Levenshtein exposing (distance)
 -}
 
 import Array exposing (Array)
-import Table as Table
-
-
-type alias Table =
-    Table.Table
+import Table as Table exposing (Table)
 
 
 {-| Computes the Levenshtein distance between two strings.
