@@ -41,7 +41,7 @@ empty ( sizeA, sizeB ) =
 
 
 fetch : ( Int, Int ) -> (Table -> ( Int, Int ) -> ( Table, Int )) -> Table -> ( Table, Int )
-fetch (( iKey, jKey ) as key) builder ((Table dimension store) as memo) =
+fetch (( iKey, jKey ) as key) builder ((Table dimension store) as table) =
     let
         index =
             iKey * dimension + jKey
@@ -51,13 +51,13 @@ fetch (( iKey, jKey ) as key) builder ((Table dimension store) as memo) =
             if value == -1 then
                 let
                     ( Table _ newStore, newValue ) =
-                        builder memo key
+                        builder table key
                 in
                 ( Table dimension (Array.set index newValue newStore), newValue )
 
             else
-                ( memo, value )
+                ( table, value )
 
         Nothing ->
             -- Would only occur if we are out of bounds on the array. This should never happen
-            ( memo, -1 )
+            ( table, -1 )
