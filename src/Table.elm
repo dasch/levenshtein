@@ -1,6 +1,7 @@
-module Memo exposing (Memo, empty, fetch)
+module Table exposing (Table, empty, fetch)
 
 import Array exposing (Array)
+
 
 
 {-
@@ -25,21 +26,22 @@ import Array exposing (Array)
    Where the index to read from can be calculated from the key and the "width" of the grid.
 -}
 
-type Memo
-    = Memo Int (Array Int)
+
+type Table
+    = Table Int (Array Int)
 
 
-empty : ( Int, Int ) -> Memo
+empty : ( Int, Int ) -> Table
 empty ( sizeA, sizeB ) =
     let
         arraySize =
             (sizeA + 1) * (sizeB + 1) - 1
     in
-    Memo (sizeB + 1) (Array.repeat arraySize -1)
+    Table (sizeB + 1) (Array.repeat arraySize -1)
 
 
-fetch : ( Int, Int ) -> (Memo -> ( Int, Int ) -> ( Memo, Int )) -> Memo -> ( Memo, Int )
-fetch (( iKey, jKey ) as key) builder ((Memo dimension store) as memo) =
+fetch : ( Int, Int ) -> (Table -> ( Int, Int ) -> ( Table, Int )) -> Table -> ( Table, Int )
+fetch (( iKey, jKey ) as key) builder ((Table dimension store) as table) =
     let
         index =
             iKey * dimension + jKey
@@ -48,14 +50,14 @@ fetch (( iKey, jKey ) as key) builder ((Memo dimension store) as memo) =
         Just value ->
             if value == -1 then
                 let
-                    ( Memo _ newStore, newValue ) =
-                        builder memo key
+                    ( Table _ newStore, newValue ) =
+                        builder table key
                 in
-                ( Memo dimension (Array.set index newValue newStore), newValue )
+                ( Table dimension (Array.set index newValue newStore), newValue )
 
             else
-                ( memo, value )
+                ( table, value )
 
         Nothing ->
             -- Would only occur if we are out of bounds on the array. This should never happen
-            ( memo, -1 )
+            ( table, -1 )
