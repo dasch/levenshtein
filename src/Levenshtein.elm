@@ -7,11 +7,11 @@ module Levenshtein exposing (distance)
 -}
 
 import Array exposing (Array)
-import Memo as Memo
+import Table as Table
 
 
-type alias Memo =
-    Memo.Memo
+type alias Table =
+    Table.Table
 
 
 {-| Computes the Levenshtein distance between two strings.
@@ -29,7 +29,7 @@ distance str1 str2 =
 
 helper arr1 arr2 =
     let
-        lev : Memo -> ( Int, Int ) -> ( Memo, Int )
+        lev : Table -> ( Int, Int ) -> ( Table, Int )
         lev memo ( i, j ) =
             case ( Array.get (i - 1) arr1, Array.get (j - 1) arr2 ) of
                 ( Just chr1, Just chr2 ) ->
@@ -42,13 +42,13 @@ helper arr1 arr2 =
                                 0
 
                         ( memo1, dist1 ) =
-                            Memo.fetch ( i - 1, j ) lev memo
+                            Table.fetch ( i - 1, j ) lev memo
 
                         ( memo2, dist2 ) =
-                            Memo.fetch ( i, j - 1 ) lev memo1
+                            Table.fetch ( i, j - 1 ) lev memo1
 
                         ( memo3, dist3 ) =
-                            Memo.fetch ( i - 1, j - 1 ) lev memo2
+                            Table.fetch ( i - 1, j - 1 ) lev memo2
                     in
                     ( memo3
                     , min3
@@ -63,7 +63,7 @@ helper arr1 arr2 =
         firstKey =
             ( Array.length arr1, Array.length arr2 )
     in
-    lev (Memo.empty firstKey) firstKey
+    lev (Table.empty firstKey) firstKey
         |> Tuple.second
 
 
