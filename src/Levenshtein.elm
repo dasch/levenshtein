@@ -18,26 +18,27 @@ distance str1 str2 =
         0
 
     else
-        helper
+        distanceHelper
             (Array.fromList (String.toList str1))
             (Array.fromList (String.toList str2))
 
 
-helper arr1 arr2 =
+distanceHelper : Array Char -> Array Char -> Int
+distanceHelper arr1 arr2 =
     let
-        lev : Table -> ( Int, Int ) -> ( Table, Int )
-        lev table ( i, j ) =
+        calculateEditDistanceForChars : Table -> ( Int, Int ) -> ( Table, Int )
+        calculateEditDistanceForChars table ( i, j ) =
             case ( Array.get (i - 1) arr1, Array.get (j - 1) arr2 ) of
                 ( Just chr1, Just chr2 ) ->
                     let
                         ( table1, dist1 ) =
-                            Table.fetch ( i - 1, j ) lev table
+                            Table.fetch ( i - 1, j ) calculateEditDistanceForChars table
 
                         ( table2, dist2 ) =
-                            Table.fetch ( i, j - 1 ) lev table1
+                            Table.fetch ( i, j - 1 ) calculateEditDistanceForChars table1
 
                         ( table3, dist3 ) =
-                            Table.fetch ( i - 1, j - 1 ) lev table2
+                            Table.fetch ( i - 1, j - 1 ) calculateEditDistanceForChars table2
                     in
                     ( table3
                       -- A more optimized version of
@@ -63,8 +64,8 @@ helper arr1 arr2 =
                 _ ->
                     ( table, max i j )
 
-        firstKey =
+        indecesForLastChars =
             ( Array.length arr1, Array.length arr2 )
     in
-    lev (Table.empty firstKey) firstKey
+    calculateEditDistanceForChars (Table.empty indecesForLastChars) indecesForLastChars
         |> Tuple.second
