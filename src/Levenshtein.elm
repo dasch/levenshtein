@@ -30,13 +30,6 @@ helper arr1 arr2 =
             case ( Array.get (i - 1) arr1, Array.get (j - 1) arr2 ) of
                 ( Just chr1, Just chr2 ) ->
                     let
-                        indicator =
-                            if chr1 /= chr2 then
-                                1
-
-                            else
-                                0
-
                         ( table1, dist1 ) =
                             Table.fetch ( i - 1, j ) lev table
 
@@ -47,10 +40,24 @@ helper arr1 arr2 =
                             Table.fetch ( i - 1, j - 1 ) lev table2
                     in
                     ( table3
-                    , min3
-                        (dist1 + 1)
-                        (dist2 + 1)
-                        (dist3 + indicator)
+                      -- A more optimized version of
+                      -- min (min (dist1 + 1) (dist2 + 1)) (dist3 + indicator)
+                    , if dist3 < dist1 then
+                        if dist3 < dist2 then
+                            if chr1 /= chr2 then
+                                dist3 + 1
+
+                            else
+                                dist3
+
+                        else
+                            dist2 + 1
+
+                      else if dist1 > dist2 then
+                        dist2 + 1
+
+                      else
+                        dist1 + 1
                     )
 
                 _ ->
@@ -61,8 +68,3 @@ helper arr1 arr2 =
     in
     lev (Table.empty firstKey) firstKey
         |> Tuple.second
-
-
-min3 : comparable -> comparable -> comparable -> comparable
-min3 a b c =
-    min (min a b) c
