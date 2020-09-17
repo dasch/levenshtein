@@ -3,7 +3,7 @@
     "name": "dasch/levenshtein",
     "summary": "Computes the Levenshtein distance between strings",
     "license": "Apache-2.0",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "exposed-modules": [
         "Levenshtein"
     ],
