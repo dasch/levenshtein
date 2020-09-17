@@ -34,29 +34,32 @@ type Table
 empty : ( Int, Int ) -> Table
 empty ( sizeA, sizeB ) =
     let
+        dimension =
+            sizeB + 1
+
         arraySize =
-            (sizeA + 1) * (sizeB + 1) - 1
+            (sizeA + 1) * dimension - 1
     in
-    Table (sizeB + 1) (Array.repeat arraySize -1)
+    Table dimension (Array.repeat arraySize -1)
 
 
 fetch : ( Int, Int ) -> (Table -> ( Int, Int ) -> ( Table, Int )) -> Table -> ( Table, Int )
-fetch (( iKey, jKey ) as key) builder ((Table dimension store) as table) =
+fetch (( iKey, jKey ) as key) builder ((Table dimension distanceStore) as table) =
     let
         index =
             iKey * dimension + jKey
     in
-    case Array.get index store of
-        Just value ->
-            if value == -1 then
+    case Array.get index distanceStore of
+        Just editDistance ->
+            if editDistance == -1 then
                 let
-                    ( Table _ newStore, newValue ) =
+                    ( Table _ newStore, actualEditDistance ) =
                         builder table key
                 in
-                ( Table dimension (Array.set index newValue newStore), newValue )
+                ( Table dimension (Array.set index actualEditDistance newStore), actualEditDistance )
 
             else
-                ( table, value )
+                ( table, editDistance )
 
         Nothing ->
             -- Would only occur if we are out of bounds on the array. This should never happen
