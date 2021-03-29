@@ -41,8 +41,7 @@ distanceHelper arr1 arr2 =
                             Table.fetch ( i - 1, j - 1 ) calculateEditDistanceForChars table2
                     in
                     ( table3
-                      -- A more optimized version of
-                      -- min (min (dist1 + 1) (dist2 + 1)) (dist3 + indicator)
+                      -- Find the smallest of (dist1 + 1), (dist2 + 1), and (dist3 + distanceIndicator)
                     , if dist3 < dist1 then
                         if dist3 < dist2 then
                             if chr1 /= chr2 then
@@ -52,7 +51,7 @@ distanceHelper arr1 arr2 =
                                 dist3
 
                         else
-                            dist2 + 1
+                            dist1 + 1
 
                       else if dist1 > dist2 then
                         dist2 + 1

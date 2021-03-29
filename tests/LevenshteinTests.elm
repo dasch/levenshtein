@@ -21,6 +21,9 @@ suite =
         , test "distance is the Levenshtein distance" <|
             \_ ->
                 Expect.equal 3 (distance "kitten" "sitting")
+        , test "distance is the Levenshtein distance regression" <|
+            \_ ->
+                Expect.equal 3 (distance "dependent" "independant")
         , fuzz2 Fuzz.string Fuzz.string "distance is at least the difference between the length of the strings" <|
             \example1 example2 ->
                 let
